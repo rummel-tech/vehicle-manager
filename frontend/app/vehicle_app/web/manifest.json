@@ -1,0 +1,11 @@
+{
+    "name": "Vehicle Manager",
+    "short_name": "Vehicles",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#3F51B5",
+    "theme_color": "#3F51B5",
+    "description": "Vehicle management application",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false
+}
