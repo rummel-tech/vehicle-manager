@@ -229,6 +229,12 @@ flutter test
 - **Meal Planner**: https://github.com/srummel/meal-planner
 - **Home Manager**: https://github.com/srummel/home-manager
 
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) - System design
+- [Deployment](docs/DEPLOYMENT.md) - Deployment guide
+- [Changelog](./CHANGELOG.md) - Version history
+
 ---
 
-Made with ❤️ by Shawn Rummel
+[Platform Documentation](../../../docs/) | [Product Overview](../../../docs/products/vehicle-manager.md)
