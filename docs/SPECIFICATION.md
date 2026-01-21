@@ -46,6 +46,67 @@ Authorization: Bearer <access_token>
 
 Backend validates tokens using AWS Cognito SDK and checks module access permissions.
 
+## Design System
+
+This module uses the shared Artemis Design System. See [Design System](../../../../docs/architecture/DESIGN_SYSTEM.md) for complete specifications.
+
+### Design Principles
+
+All UI components follow the shared design system to ensure visual consistency across the Artemis ecosystem:
+
+- **Colors**: Rummel Blue primary (`#1E88E5`), Teal secondary (`#26A69A`)
+- **Typography**: Material 3 type scale with system fonts
+- **Spacing**: Consistent 4dp base unit scale (xs: 4dp, sm: 8dp, md: 16dp, lg: 24dp)
+- **Components**: Shared button, card, input, and navigation styles
+
+### Module-Specific Colors
+
+| Element | Color | Token | Usage |
+|---------|-------|-------|-------|
+| Maintenance Due | `#F57C00` | `warning` | Service coming due soon |
+| Maintenance Overdue | `#D32F2F` | `error` | Service past due |
+| Up to Date | `#388E3C` | `success` | All services current |
+| Fuel Cost | `#1E88E5` | `primary500` | Fuel expense displays |
+| Maintenance Cost | `#7B1FA2` | Purple | Maintenance expense displays |
+
+### Maintenance Status Colors
+
+| Status | Color | Token | Condition |
+|--------|-------|-------|-----------|
+| Upcoming | `#388E3C` | `success` | > 1000 miles until due |
+| Due | `#F57C00` | `warning` | Within 1000 miles of due |
+| Overdue | `#D32F2F` | `error` | Past due mileage |
+
+### Key Components
+
+| Component | Specification |
+|-----------|---------------|
+| VehicleCard | Card with vehicle image placeholder, make/model, mileage, quick stats |
+| MaintenanceCard | Card with service type icon, date, cost, status badge |
+| FuelCard | Card with fuel type, gallons, cost, calculated MPG |
+| ScheduleItem | List tile with service type, due mileage, status indicator |
+| StatsCard | Summary with fuel totals, maintenance totals, average MPG |
+| StatusBadge | Chip with semantic color based on status |
+
+### Service Type Icons
+
+| Service | Icon |
+|---------|------|
+| Oil Change | `oil_barrel` |
+| Tire Rotation | `tire_repair` |
+| Brake Service | `disc_full` |
+| Inspection | `fact_check` |
+| Battery | `battery_charging_full` |
+| Transmission | `settings` |
+| General Repair | `build` |
+
+### Screen Layouts
+
+All screens follow responsive breakpoints from the shared design system:
+- Mobile (< 600dp): Single vehicle view with tabbed sections
+- Tablet (600-839dp): Vehicle list sidebar with detail panel
+- Desktop (>= 840dp): Multi-vehicle dashboard with expandable details
+
 ## Data Models
 
 ### Vehicle
