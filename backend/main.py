@@ -3,7 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, date
+from enum import Enum
 import os
+
+
+class VehicleType(str, Enum):
+    """Vehicle type classification"""
+    car = "car"
+    motorcycle = "motorcycle"
+    truck = "truck"
+    suv = "suv"
+    van = "van"
 
 # Get the root path from environment variable (for deployment with path prefix)
 # Example: /vehicle-manager or empty string for root deployment
@@ -31,6 +41,7 @@ class Vehicle(BaseModel):
     make: str
     model: str
     year: int
+    vehicle_type: VehicleType = VehicleType.car
     vin: Optional[str] = None
     license_plate: Optional[str] = None
     current_mileage: int
@@ -40,7 +51,9 @@ class MaintenanceRecord(BaseModel):
     id: str
     vehicle_id: str
     date: str
-    type: str  # oil_change, tire_rotation, inspection, repair, etc.
+    # Common types: oil_change, tire_rotation, tire_replacement, brake_service, inspection, repair, air_filter
+    # Motorcycle-specific: chain_service, valve_adjustment, fork_service, coolant_flush, sprocket_replacement
+    type: str
     mileage: int
     cost: Optional[float] = None
     description: Optional[str] = None
@@ -77,6 +90,7 @@ def _default_vehicles(user_id: str):
                 "make": "Toyota",
                 "model": "Camry",
                 "year": 2020,
+                "vehicle_type": "car",
                 "vin": "1HGBH41JXMN109186",
                 "license_plate": "ABC-1234",
                 "current_mileage": 45000,
@@ -87,10 +101,33 @@ def _default_vehicles(user_id: str):
                 "make": "Honda",
                 "model": "CR-V",
                 "year": 2019,
+                "vehicle_type": "suv",
                 "vin": "2HGFC2F59KH542789",
                 "license_plate": "XYZ-5678",
                 "current_mileage": 38000,
                 "color": "Blue"
+            },
+            {
+                "id": "v3",
+                "make": "Harley-Davidson",
+                "model": "Street Glide",
+                "year": 2022,
+                "vehicle_type": "motorcycle",
+                "vin": "1HD1KBP19NB123456",
+                "license_plate": "MC-9876",
+                "current_mileage": 12500,
+                "color": "Black"
+            },
+            {
+                "id": "v4",
+                "make": "Kawasaki",
+                "model": "Ninja 650",
+                "year": 2023,
+                "vehicle_type": "motorcycle",
+                "vin": "JKAEXMJ1XPDA12345",
+                "license_plate": "MC-4321",
+                "current_mileage": 5200,
+                "color": "Green"
             }
         ]
     }

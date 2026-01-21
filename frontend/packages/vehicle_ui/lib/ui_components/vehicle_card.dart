@@ -7,6 +7,7 @@ class VehicleCard extends StatelessWidget {
   final int currentMileage;
   final String? color;
   final String? licensePlate;
+  final String? vehicleType;
   final VoidCallback? onTap;
 
   const VehicleCard({
@@ -17,6 +18,7 @@ class VehicleCard extends StatelessWidget {
     required this.currentMileage,
     this.color,
     this.licensePlate,
+    this.vehicleType,
     this.onTap,
   });
 
@@ -35,7 +37,7 @@ class VehicleCard extends StatelessWidget {
                 radius: 30,
                 backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
                 child: Icon(
-                  Icons.directions_car,
+                  _getVehicleIcon(),
                   size: 32,
                   color: Theme.of(context).primaryColor,
                 ),
@@ -102,6 +104,22 @@ class VehicleCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconData _getVehicleIcon() {
+    switch (vehicleType?.toLowerCase()) {
+      case 'motorcycle':
+        return Icons.two_wheeler;
+      case 'truck':
+        return Icons.local_shipping;
+      case 'suv':
+        return Icons.directions_car;
+      case 'van':
+        return Icons.airport_shuttle;
+      case 'car':
+      default:
+        return Icons.directions_car;
+    }
   }
 
   Color _getColorFromName(String colorName) {

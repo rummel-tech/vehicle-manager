@@ -88,6 +88,16 @@ All UI components follow the shared design system to ensure visual consistency a
 | StatsCard | Summary with fuel totals, maintenance totals, average MPG |
 | StatusBadge | Chip with semantic color based on status |
 
+### Vehicle Type Icons
+
+| Vehicle Type | Icon |
+|--------------|------|
+| Car | `directions_car` |
+| Motorcycle | `two_wheeler` |
+| Truck | `local_shipping` |
+| SUV | `directions_car` |
+| Van | `airport_shuttle` |
+
 ### Service Type Icons
 
 | Service | Icon |
@@ -99,6 +109,9 @@ All UI components follow the shared design system to ensure visual consistency a
 | Battery | `battery_charging_full` |
 | Transmission | `settings` |
 | General Repair | `build` |
+| Chain Service | `link` |
+| Valve Adjustment | `tune` |
+| Fork Service | `compress` |
 
 ### Screen Layouts
 
@@ -117,10 +130,20 @@ All screens follow responsive breakpoints from the shared design system:
 | make | String | Required | Vehicle manufacturer |
 | model | String | Required | Vehicle model name |
 | year | int | Required, 1900-2100 | Model year |
+| vehicle_type | String | Default: car | Type of vehicle (car, motorcycle, truck, suv, van) |
 | vin | String? | Optional, 17 chars | Vehicle Identification Number |
 | license_plate | String? | Optional | License plate number |
 | current_mileage | int | Required, >= 0 | Current odometer reading |
 | color | String? | Optional | Vehicle color |
+
+**Vehicle Types:**
+| Type | Description | Icon |
+|------|-------------|------|
+| car | Sedan, coupe, hatchback | `directions_car` |
+| motorcycle | Motorcycles, scooters | `two_wheeler` |
+| truck | Pickup trucks, commercial trucks | `local_shipping` |
+| suv | Sport utility vehicles, crossovers | `directions_car` |
+| van | Minivans, cargo vans | `airport_shuttle` |
 
 **Relationships:**
 - Vehicle has many MaintenanceRecords
@@ -130,6 +153,7 @@ All screens follow responsive breakpoints from the shared design system:
 **Indexes (Planned):**
 - user_id (for user-scoped queries)
 - make, model (for filtering)
+- vehicle_type (for type filtering)
 
 **JSON Serialization:**
 ```json
@@ -138,6 +162,7 @@ All screens follow responsive breakpoints from the shared design system:
   "make": "Toyota",
   "model": "Camry",
   "year": 2020,
+  "vehicle_type": "car",
   "vin": "1HGBH41JXMN109186",
   "license_plate": "ABC-1234",
   "current_mileage": 45000,
@@ -159,7 +184,7 @@ All screens follow responsive breakpoints from the shared design system:
 | next_due_mileage | int? | Optional | Next service mileage |
 | next_due_date | String? | Optional, ISO date | Next service date |
 
-**Service Types:**
+**Service Types (All Vehicles):**
 | Type | Description |
 |------|-------------|
 | oil_change | Engine oil and filter replacement |
@@ -174,6 +199,17 @@ All screens follow responsive breakpoints from the shared design system:
 | spark_plugs | Spark plug replacement |
 | repair | General repair |
 | other | Other service |
+
+**Service Types (Motorcycle-Specific):**
+| Type | Description |
+|------|-------------|
+| chain_service | Chain cleaning, lubrication, and adjustment |
+| valve_adjustment | Valve clearance check and adjustment |
+| fork_service | Fork oil change and seal replacement |
+| sprocket_replacement | Front/rear sprocket replacement |
+| clutch_service | Clutch plate inspection and replacement |
+| carb_sync | Carburetor synchronization |
+| throttle_body_sync | Throttle body synchronization (fuel injected) |
 
 **Relationships:**
 - MaintenanceRecord belongs to Vehicle
@@ -660,10 +696,22 @@ if current_mileage >= next_due_mileage + 500: status = "overdue"
       "make": "Toyota",
       "model": "Camry",
       "year": 2020,
+      "vehicle_type": "car",
       "vin": "1HGBH41JXMN109186",
       "license_plate": "ABC-1234",
       "current_mileage": 45000,
       "color": "Silver"
+    },
+    {
+      "id": "v3",
+      "make": "Harley-Davidson",
+      "model": "Street Glide",
+      "year": 2022,
+      "vehicle_type": "motorcycle",
+      "vin": "1HD1KBP19NB123456",
+      "license_plate": "MC-9876",
+      "current_mileage": 12500,
+      "color": "Black"
     }
   ]
 }
@@ -874,6 +922,7 @@ if current_mileage >= next_due_mileage + 500: status = "overdue"
   "make": "string - required",
   "model": "string - required",
   "year": "int - required",
+  "vehicle_type": "string - optional (default: car) - car, motorcycle, truck, suv, van",
   "current_mileage": "int - required",
   "vin": "string - optional",
   "license_plate": "string - optional",
@@ -1012,9 +1061,11 @@ if current_mileage >= next_due_mileage + 500: status = "overdue"
 - API Base URL: Configurable
 
 ### Key Implementation Details
-- Mock data provides 2 vehicles with complete history
+- Mock data provides 4 vehicles (2 cars/SUVs, 2 motorcycles) with complete history
+- Vehicle types supported: car, motorcycle, truck, suv, van
 - Each vehicle has 4 maintenance records, 3 fuel records
 - MPG precalculated in mock data
 - Schedule status dynamically calculated from current_mileage
 - Statistics aggregated on each request
 - All costs rounded to 2 decimal places
+- Motorcycle-specific maintenance types available (chain_service, valve_adjustment, fork_service, etc.)
