@@ -34,7 +34,6 @@ class _VehicleManagerScreenState extends State<VehicleManagerScreen> {
   String? _error;
   Map<String, dynamic>? _vehicles;
   Map<String, dynamic>? _summary;
-  String? _selectedVehicleId;
 
   Future<void> _loadData() async {
     await Future.wait([
@@ -53,9 +52,6 @@ class _VehicleManagerScreenState extends State<VehicleManagerScreen> {
       setState(() {
         _vehicles = data;
         _loadingVehicles = false;
-        if (_vehicles != null && (_vehicles!['vehicles'] as List).isNotEmpty) {
-          _selectedVehicleId = _vehicles!['vehicles'][0]['id'];
-        }
       });
     } catch (e) {
       setState(() {
@@ -170,7 +166,7 @@ class _VehicleManagerScreenState extends State<VehicleManagerScreen> {
   Widget _buildSummaryCard() {
     return Card(
       elevation: 2,
-      color: Theme.of(context).primaryColor.withOpacity(0.05),
+      color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -330,7 +326,7 @@ class _VehicleDetailScreenState extends State<VehicleDetailScreen> with SingleTi
         children: [
           if (!_loadingStats && _stats != null)
             Container(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [

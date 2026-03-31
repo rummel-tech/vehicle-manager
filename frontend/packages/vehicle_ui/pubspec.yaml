@@ -1,16 +1,18 @@
 name: vehicle_ui
 description: Vehicle management widgets and screens
 version: 0.0.1
+publish_to: none
+
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   rummel_blue_theme:
-    path: ../../../../resources/rummel_blue_theme
+    path: ../../../../../../resources/rummel_blue_theme
   shared_services:
-    path: ../../../../resources/shared_services
+    path: ../../../../../../resources/shared_services
   http: ^1.1.0
   shared_preferences: ^2.2.2
 

@@ -3,8 +3,15 @@ import 'package:shared_services/shared_services.dart';
 class VehicleApiService {
   final BaseApiClient _client;
 
-  VehicleApiService({BaseApiClient? client})
-      : _client = client ?? BaseApiClient(config: AppConfigs.vehicleManager());
+  VehicleApiService({BaseApiClient? client, String? baseUrl})
+      : _client = client ??
+            BaseApiClient(
+              config: baseUrl != null
+                  ? AppConfigs.vehicleManager().copyWith(baseUrl: baseUrl)
+                  : AppConfigs.vehicleManager(),
+            );
+
+  String get baseUrl => _client.config.baseUrl;
 
   Future<Map<String, dynamic>> getVehicles(String userId) async {
     return await _client.get<Map<String, dynamic>>(
